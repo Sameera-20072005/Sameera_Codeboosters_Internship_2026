@@ -1,0 +1,6 @@
+groq
+pandas
+matplotlib
+python-docx
+jupyter
+notebook
