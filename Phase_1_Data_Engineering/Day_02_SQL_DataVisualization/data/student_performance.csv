@@ -1,0 +1,31 @@
+student_id,name,age,gender,department,semester,math_score,science_score,english_score,programming_score,attendance_percentage,city,admission_year
+1001,Aarav Sharma,19,Male,Computer Science,2,85,78,72,91,92,Mumbai,2023
+1002,Priya Patel,20,Female,Computer Science,2,76,82,88,79,87,Ahmedabad,2023
+1003,Rohit Verma,19,Male,Electronics,2,65,74,61,55,78,Delhi,2023
+1004,Sneha Reddy,20,Female,Mechanical,2,70,80,75,48,95,Hyderabad,2023
+1005,Arjun Nair,19,Male,Computer Science,2,92,88,81,95,90,Kochi,2023
+1006,Meera Joshi,20,Female,Electronics,2,58,66,70,52,72,Pune,2023
+1007,Kiran Kumar,21,Male,Civil,2,73,69,65,40,85,Bangalore,2023
+1008,Divya Singh,19,Female,Computer Science,2,88,91,84,93,96,Lucknow,2023
+1009,Rahul Mishra,20,Male,Mechanical,2,62,71,58,45,68,Varanasi,2023
+1010,Ananya Das,19,Female,Computer Science,2,95,89,90,97,98,Kolkata,2023
+1011,Vikram Iyer,20,Male,Electronics,2,80,75,68,72,83,Chennai,2023
+1012,Pooja Gupta,19,Female,Civil,2,67,72,79,44,80,Jaipur,2023
+1013,Suresh Rao,21,Male,Computer Science,2,83,86,77,88,88,Mysore,2023
+1014,Kavya Nambiar,20,Female,Mechanical,2,74,78,82,51,91,Thrissur,2023
+1015,Ajay Tiwari,19,Male,Computer Science,2,71,69,64,76,75,Bhopal,2023
+1016,Ritu Agarwal,20,Female,Electronics,2,87,83,86,69,93,Agra,2023
+1017,Manoj Pandey,21,Male,Civil,2,56,61,55,38,65,Patna,2023
+1018,Swati Kulkarni,19,Female,Computer Science,2,90,87,85,92,94,Nagpur,2023
+1019,Deepak Chauhan,20,Male,Mechanical,2,68,73,62,49,77,Dehradun,2023
+1020,Nisha Kapoor,19,Female,Computer Science,2,79,84,81,83,89,Chandigarh,2023
+1021,Harish Pillai,20,Male,Electronics,2,64,70,67,58,74,Thiruvananthapuram,2023
+1022,Tanvi Mehta,19,Female,Computer Science,2,93,90,88,96,97,Surat,2023
+1023,Sanjay Dubey,21,Male,Civil,2,61,66,59,42,70,Allahabad,2023
+1024,Preeti Saxena,20,Female,Mechanical,2,77,81,76,53,86,Kanpur,2023
+1025,Amit Bose,19,Male,Computer Science,2,86,82,79,89,91,Kolkata,2023
+1026,Rekha Nair,20,Female,Electronics,2,72,77,73,63,82,Kochi,2023
+1027,Gaurav Shukla,21,Male,Computer Science,2,84,79,75,87,87,Lucknow,2023
+1028,Sunita Pillai,19,Female,Civil,2,60,65,68,39,73,Thiruvananthapuram,2023
+1029,Nitin Jain,20,Male,Mechanical,2,75,76,70,50,84,Indore,2023
+1030,Akanksha Yadav,19,Female,Computer Science,2,91,93,87,94,95,Agra,2023
