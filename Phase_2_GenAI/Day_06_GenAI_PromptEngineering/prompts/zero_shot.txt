@@ -1,0 +1,25 @@
+ZERO-SHOT PROMPTS
+
+EDUCATION DOMAIN
+
+1. Explain photosynthesis.
+2. What is Newton's Second Law?
+3. Explain recursion in programming.
+4. Define machine learning.
+5. Describe cloud computing.
+
+PROGRAMMING DOMAIN
+
+1. Write a Java program to check palindrome numbers.
+2. Explain Object-Oriented Programming concepts.
+3. Implement Binary Search in Java.
+4. Explain time complexity.
+5. Create a stack implementation.
+
+BUSINESS DOMAIN
+
+1. Explain SWOT Analysis.
+2. Create a marketing strategy for a startup.
+3. Write a business email requesting a meeting.
+4. Explain customer retention strategies.
+5. Describe project management methodologies.

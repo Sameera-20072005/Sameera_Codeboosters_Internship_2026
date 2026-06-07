@@ -1,0 +1,43 @@
+METHODOLOGY
+
+1. Introduction
+
+Prompt engineering is the process of designing and refining prompts to improve the performance of Large Language Models (LLMs).
+
+2. Experimental Setup
+
+Environment:
+
+* Google Colab
+* Python 3.x
+* OpenAI API
+
+3. Prompting Techniques Evaluated
+
+a) Zero-Shot Prompting
+The model receives only the task description.
+
+b) Few-Shot Prompting
+The model receives task examples before solving the new problem.
+
+c) Role Prompting
+The model is assigned a specific persona.
+
+d) Chain-of-Thought Prompting
+The model is encouraged to explain reasoning step by step.
+
+e) Tree-of-Thought Prompting
+The model explores multiple reasoning paths before selecting a solution.
+
+4. Evaluation Metrics
+
+* Accuracy
+* Completeness
+* Reasoning Quality
+* Creativity
+* Consistency
+* Context Awareness
+
+5. Data Collection
+
+Outputs from each prompt type were collected and stored in CSV format for analysis.

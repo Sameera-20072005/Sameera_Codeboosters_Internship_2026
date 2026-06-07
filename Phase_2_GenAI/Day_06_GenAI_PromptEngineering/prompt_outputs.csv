@@ -1,0 +1,6 @@
+Technique,Domain,Prompt,Generated_Output,Accuracy,Reasoning,Creativity,Comments
+Zero-Shot,Education,Explain Photosynthesis,...,7,5,6,Good explanation
+Few-Shot,Education,Grammar Correction,...,8,6,6,Consistent output
+Role Prompting,Education,Explain AI as Professor,...,8,6,9,Professional tone
+Chain-of-Thought,Math,Discount Problem,...,9,10,6,Excellent reasoning
+Tree-of-Thought,Business,Attendance Problem,...,10,10,8,Multiple solution paths

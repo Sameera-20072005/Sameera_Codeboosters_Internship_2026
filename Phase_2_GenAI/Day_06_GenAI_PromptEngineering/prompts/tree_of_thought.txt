@@ -1,0 +1,46 @@
+TREE-OF-THOUGHT PROMPT
+
+Problem:
+
+A college wants to improve student attendance.
+
+Prompt:
+
+Generate three possible solutions.
+
+For each solution:
+
+* Advantages
+* Disadvantages
+* Expected Impact
+
+Compare all solutions and recommend the best one.
+
+Expected Structure:
+
+Path 1: Attendance Rewards
+
+Advantages:
+...
+
+Disadvantages:
+...
+
+Path 2: Attendance Tracking Application
+
+Advantages:
+...
+
+Disadvantages:
+...
+
+Path 3: Parent Notification System
+
+Advantages:
+...
+
+Disadvantages:
+...
+
+Best Solution:
+...

@@ -1,0 +1,9 @@
+CONCLUSION
+
+This project investigated five different prompt engineering techniques and their impact on Large Language Model performance.
+
+The study revealed that prompt design significantly influences response quality. Zero-shot prompting is efficient for simple tasks but offers limited control. Few-shot prompting improves consistency through examples. Role prompting successfully alters communication style and audience targeting. Chain-of-Thought prompting enhances logical reasoning and problem-solving. Tree-of-Thought prompting provides the most comprehensive analysis by evaluating multiple solution paths.
+
+Among all techniques, Tree-of-Thought produced the highest-quality responses for complex decision-making tasks, while Chain-of-Thought excelled in mathematical and logical reasoning. The findings demonstrate the importance of selecting an appropriate prompting strategy based on task requirements.
+
+Future work may include testing additional techniques such as Self-Consistency Prompting, ReAct Prompting, and Retrieval-Augmented Prompting to further improve LLM performance.

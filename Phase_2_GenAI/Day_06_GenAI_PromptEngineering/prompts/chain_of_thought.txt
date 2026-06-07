@@ -1,0 +1,32 @@
+CHAIN-OF-THOUGHT PROMPT
+
+Problem:
+
+A laptop costs ₹50,000.
+A store offers a 20% discount.
+
+Find:
+
+1. Discount amount
+2. Final price
+
+Prompt:
+
+Think step by step and show all calculations before giving the final answer.
+
+Expected Reasoning:
+
+Step 1:
+20% of ₹50,000
+
+Step 2:
+0.20 × 50,000
+
+Step 3:
+Discount = ₹10,000
+
+Step 4:
+Final Price = ₹50,000 − ₹10,000
+
+Answer:
+₹40,000

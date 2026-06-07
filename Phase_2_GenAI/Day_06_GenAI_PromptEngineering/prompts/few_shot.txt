@@ -1,0 +1,47 @@
+FEW-SHOT PROMPTS
+
+Example 1: Sentiment Classification
+
+Review: Excellent product.
+Sentiment: Positive
+
+Review: Worst experience ever.
+Sentiment: Negative
+
+Review: Average quality.
+Sentiment:
+
+Expected Output:
+Neutral
+
+---
+
+Example 2: Grammar Correction
+
+Input: She go to school.
+Output: She goes to school.
+
+Input: He eat an apple.
+Output: He eats an apple.
+
+Input: They plays football.
+Output:
+
+Expected Output:
+They play football.
+
+---
+
+Example 3: Palindrome Detection
+
+Input: 121
+Output: Palindrome
+
+Input: 123
+Output: Not Palindrome
+
+Input: 454
+Output:
+
+Expected Output:
+Palindrome

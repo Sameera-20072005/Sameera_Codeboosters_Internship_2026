@@ -1,0 +1,27 @@
+ROLE PROMPTING
+
+Common Task:
+Explain Artificial Intelligence.
+
+Persona 1:
+You are a college professor.
+
+Persona 2:
+You are a school teacher.
+
+Persona 3:
+You are a software engineer.
+
+Persona 4:
+You are a business consultant.
+
+Persona 5:
+You are a motivational speaker.
+
+Evaluation Criteria:
+
+* Tone
+* Vocabulary
+* Technical Depth
+* Audience Suitability
+* Creativity

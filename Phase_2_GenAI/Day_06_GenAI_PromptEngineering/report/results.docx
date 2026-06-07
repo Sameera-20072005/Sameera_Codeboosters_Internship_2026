@@ -1,0 +1,55 @@
+RESULTS AND DISCUSSION
+
+1. Zero-Shot Prompting
+
+Observations:
+
+* Fast response generation.
+* Suitable for straightforward tasks.
+* Limited control over output format.
+
+2. Few-Shot Prompting
+
+Observations:
+
+* More consistent responses.
+* Improved task understanding.
+* Better formatting.
+
+3. Role Prompting
+
+Observations:
+
+* Output style changes significantly.
+* Tone aligns with assigned persona.
+* Useful for audience-specific communication.
+
+4. Chain-of-Thought Prompting
+
+Observations:
+
+* Improved reasoning accuracy.
+* Better handling of mathematical and logical problems.
+* Longer response generation.
+
+5. Tree-of-Thought Prompting
+
+Observations:
+
+* Explores multiple solutions.
+* Produces comprehensive analysis.
+* Highest reasoning quality.
+
+Performance Comparison
+
+## Technique | Accuracy | Reasoning | Creativity
+
+Zero-Shot | 7 | 5 | 6
+Few-Shot | 8 | 6 | 6
+Role Prompting | 8 | 6 | 9
+Chain-of-Thought | 9 | 10 | 6
+Tree-of-Thought | 10 | 10 | 8
+
+Overall Findings
+
+Tree-of-Thought and Chain-of-Thought prompting achieved the best reasoning performance, while Role Prompting demonstrated the strongest influence on response style and tone.
