@@ -1,0 +1,31 @@
+order_id,customer_name,product,category,quantity,unit_price,order_date,city,sales_rep
+1001,Ramesh Kumar,Laptop,Electronics,2,45000,2024-01-05,Mumbai,Anil Sharma
+1002,Priya Nair,,Electronics,1,15000,2024-01-07,Delhi,Sunita Rao
+1003,AMIT VERMA,Keyboard,Accessories,3,1200,2024-01-08,Bangalore,Anil Sharma
+1004,Sunita Patel,Monitor,Electronics,,22000,2024-01-10,Chennai,Ravi Kumar
+1005,Ramesh Kumar,Laptop,Electronics,2,45000,2024-01-05,Mumbai,Anil Sharma
+1006,kiran mehta,Mouse,Accessories,10,800,07-01-2024,Pune,Sunita Rao
+1007,Deepak Singh,Headphones,Electronics,2,3500,2024-01-12,Hyderabad,Ravi Kumar
+1008,,Webcam,Accessories,1,2500,2024-01-13,Mumbai,Anil Sharma
+1009,Ananya Das,Laptop,Electronics,1,45000,2024-01-15,Kolkata,Sunita Rao
+1010,Vikram Iyer,Keyboard,Accessories,5,1200,2024-01-15,Chennai,Ravi Kumar
+1011,Pooja Gupta,Monitor,Electronics,2,22000,2024-01-18,Delhi,Anil Sharma
+1012,SURESH RAO,USB Hub,Accessories,8,600,2024-01-20,Bangalore,Sunita Rao
+1013,Meera Joshi,Laptop,Electronics,,45000,2024-01-22,Pune,Ravi Kumar
+1014,Arjun Nair,Headphones,Electronics,3,3500,21-01-2024,Kochi,Anil Sharma
+1015,Tanvi Mehta,Webcam,Accessories,2,2500,2024-01-25,Surat,Sunita Rao
+1016,Kiran Mehta,Mouse,Accessories,10,800,2024-01-07,Pune,Sunita Rao
+1017,Deepak Singh,Keyboard,Accessories,5,1200,2024-01-28,Hyderabad,Ravi Kumar
+1018,Rohit Verma,Monitor,Electronics,1,22000,2024-01-30,Delhi,Anil Sharma
+1019,Sneha Reddy,Laptop,Electronics,1,45000,2024-02-01,Hyderabad,Ravi Kumar
+1020,Gaurav Shukla,USB Hub,Accessories,15,600,2024-02-03,Lucknow,Sunita Rao
+1021,Nisha Kapoor,Headphones,Electronics,2,3500,2024-02-05,Chandigarh,Anil Sharma
+1022,Ajay Tiwari,Webcam,Accessories,3,2500,2024-02-07,Bhopal,Ravi Kumar
+1023,ANANYA DAS,Laptop,Electronics,1,45000,2024-01-15,Kolkata,Sunita Rao
+1024,Preeti Saxena,Keyboard,Electronics,4,1200,2024-02-10,Kanpur,Anil Sharma
+1025,Amit Bose,Mouse,Accessories,6,800,2024-02-12,Kolkata,Sunita Rao
+1026,,Headphones,Electronics,1,3500,2024-02-14,Mumbai,Ravi Kumar
+1027,Rekha Nair,Monitor,,2,22000,2024-02-15,Kochi,Anil Sharma
+1028,Harish Pillai,Laptop,Electronics,3,45000,2024-02-18,Thiruvananthapuram,Ravi Kumar
+1029,Sanjay Dubey,USB Hub,Accessories,10,600,2024-02-20,Allahabad,Sunita Rao
+1030,Kavya Nambiar,Webcam,Accessories,,2500,2024-02-22,Thrissur,Anil Sharma
