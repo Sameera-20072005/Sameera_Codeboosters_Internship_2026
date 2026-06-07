@@ -1,0 +1,2 @@
+time,interval,temperature,windspeed,winddirection,is_day,weathercode
+2026-06-07T10:00,900,38.5,7.7,201,1,1
