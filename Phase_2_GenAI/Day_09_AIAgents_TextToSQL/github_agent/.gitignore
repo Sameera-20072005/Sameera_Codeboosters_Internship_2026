@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment variables — NEVER commit real keys
+.env
+.env.*
+
+# Logs
+logs/*.log
+
+# Data
+data/history.json
+
+# Generated output
+generated/*/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
