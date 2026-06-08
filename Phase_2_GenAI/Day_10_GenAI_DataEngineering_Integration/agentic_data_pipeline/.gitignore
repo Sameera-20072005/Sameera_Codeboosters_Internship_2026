@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+logs/*.log
+
+# Pipeline artefacts (keep structure, not data)
+data/raw/*
+data/cleaned/*
+data/transformed/*
+data/spark_outputs/*
+reports/report.pdf
+!reports/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
