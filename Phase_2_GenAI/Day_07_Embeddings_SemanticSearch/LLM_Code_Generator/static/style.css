@@ -1,0 +1,236 @@
+/* ============================================================
+   LLM Code Generator — style.css
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #0f1117;
+  --surface:     #1a1d27;
+  --surface-2:   #22263a;
+  --border:      #2e3248;
+  --accent:      #6c63ff;
+  --accent-dark: #4f46e5;
+  --success:     #22c55e;
+  --error:       #ef4444;
+  --warning-bg:  #451a03;
+  --warning-txt: #fdba74;
+  --text:        #e2e8f0;
+  --text-muted:  #94a3b8;
+  --radius:      12px;
+  --shadow:      0 4px 24px rgba(0,0,0,.4);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── Layout ── */
+.app-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px;
+  flex: 1;
+}
+
+@media (max-width: 900px) { .main { grid-template-columns: 1fr; } }
+
+/* ── Header ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+}
+.header-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { font-size: 1.5rem; }
+.logo-text { font-size: 1.3rem; font-weight: 700; color: var(--text); }
+.badge {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: .75rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* ── Alert ── */
+.alert {
+  max-width: 1300px;
+  margin: 12px auto 0;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: .875rem;
+}
+.alert-warning { background: var(--warning-bg); color: var(--warning-txt); border: 1px solid #92400e; }
+.alert code { background: rgba(255,255,255,.1); padding: 1px 5px; border-radius: 4px; }
+
+/* ── Cards ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+
+/* ── Form elements ── */
+.form-group { display: flex; flex-direction: column; gap: 8px; position: relative; }
+.form-group label { font-size: .85rem; font-weight: 500; color: var(--text-muted); }
+
+select, textarea {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: .95rem;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+  font-family: inherit;
+}
+select:focus, textarea:focus { border-color: var(--accent); }
+textarea { resize: vertical; min-height: 140px; }
+
+.char-count {
+  font-size: .75rem;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .95rem;
+  font-weight: 600;
+  padding: 11px 24px;
+  transition: background .2s, transform .1s;
+}
+.btn:active { transform: scale(.98); }
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  width: 100%;
+}
+.btn-primary:hover { background: var(--accent-dark); }
+.btn-primary:disabled { background: #3b3f5c; cursor: not-allowed; }
+
+.btn-secondary {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: .85rem;
+  padding: 7px 14px;
+}
+.btn-secondary:hover { background: var(--border); }
+
+/* Spinner */
+.btn-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Output header ── */
+.output-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.output-actions { display: flex; align-items: center; gap: 10px; }
+
+/* Status badge */
+.status-badge {
+  font-size: .78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+.status-badge.success { background: rgba(34,197,94,.15); color: var(--success); border: 1px solid rgba(34,197,94,.3); }
+.status-badge.error   { background: rgba(239,68,68,.15);  color: var(--error);   border: 1px solid rgba(239,68,68,.3); }
+
+/* ── Token usage ── */
+.token-usage {
+  display: flex;
+  gap: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  flex-wrap: wrap;
+}
+.token-item { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 80px; }
+.token-item.highlight .token-value { color: var(--accent); }
+.token-label { font-size: .72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+.token-value { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+
+/* ── Code container ── */
+.code-container {
+  background: #282c34;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: auto;
+  min-height: 200px;
+  flex: 1;
+}
+.code-container pre { margin: 0; }
+.code-container code { font-size: .88rem !important; line-height: 1.65 !important; }
+
+.placeholder-msg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--text-muted);
+  font-size: .9rem;
+}
+
+/* ── Error container ── */
+.error-container {
+  background: rgba(239,68,68,.1);
+  border: 1px solid rgba(239,68,68,.3);
+  border-radius: 8px;
+  color: var(--error);
+  font-size: .9rem;
+  padding: 14px 16px;
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 16px;
+  font-size: .78rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ── Utility ── */
+.hidden { display: none !important; }

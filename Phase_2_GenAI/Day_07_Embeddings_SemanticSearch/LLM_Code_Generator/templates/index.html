@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLM Code Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+</head>
+<body>
+  <div class="app-wrapper">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">LLM Code Generator</span>
+        </div>
+        <span class="badge">Powered by Groq · LLaMA 3.3</span>
+      </div>
+    </header>
+
+    <!-- Config warnings -->
+    {% if config_warnings %}
+    <div class="alert alert-warning">
+      ⚠️ Missing environment variables: <strong>{{ config_warnings | join(", ") }}</strong>.
+      Check your <code>.env</code> file.
+    </div>
+    {% endif %}
+
+    <main class="main">
+
+      <!-- Input Panel -->
+      <section class="card input-card">
+        <h2 class="card-title">Configure Generation</h2>
+
+        <div class="form-group">
+          <label for="language">Programming Language</label>
+          <select id="language" name="language">
+            {% for lang in languages %}
+            <option value="{{ lang }}">{{ lang | capitalize }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="task">Task Description</label>
+          <textarea
+            id="task"
+            name="task"
+            rows="6"
+            placeholder="Describe what you want the code to do...&#10;&#10;Example: Create a function that reads a CSV file, calculates the average of a numeric column, and returns the result."
+            maxlength="2000"
+          ></textarea>
+          <span class="char-count"><span id="charCount">0</span> / 2000</span>
+        </div>
+
+        <button id="generateBtn" class="btn btn-primary" type="button">
+          <span class="btn-text">Generate Code</span>
+          <span class="btn-spinner hidden" aria-hidden="true"></span>
+        </button>
+      </section>
+
+      <!-- Output Panel -->
+      <section class="card output-card">
+        <div class="output-header">
+          <h2 class="card-title">Generated Code</h2>
+          <div class="output-actions">
+            <span id="statusBadge" class="status-badge hidden"></span>
+            <button id="copyBtn" class="btn btn-secondary hidden" type="button">
+              📋 Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- Token usage -->
+        <div id="tokenUsage" class="token-usage hidden">
+          <div class="token-item">
+            <span class="token-label">Prompt</span>
+            <span id="promptTokens" class="token-value">—</span>
+          </div>
+          <div class="token-item">
+            <span class="token-label">Completion</span>
+            <span id="completionTokens" class="token-value">—</span>
+          </div>
+          <div class="token-item highlight">
+            <span class="token-label">Total</span>
+            <span id="totalTokens" class="token-value">—</span>
+          </div>
+        </div>
+
+        <!-- Code block -->
+        <div id="codeContainer" class="code-container">
+          <div class="placeholder-msg">
+            <span>🚀 Your generated code will appear here.</span>
+          </div>
+        </div>
+
+        <!-- Error block -->
+        <div id="errorContainer" class="error-container hidden">
+          <span id="errorMessage"></span>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      LLM Code Generator · Built with Flask &amp; Groq · Notifications via Twilio
+    </footer>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
