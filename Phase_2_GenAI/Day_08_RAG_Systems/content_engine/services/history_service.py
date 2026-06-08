@@ -1,17 +1,26 @@
 """
 Content history service module.
 Persists generated content to a JSON file and provides load/clear operations.
+
+Fixes applied:
+- datetime.now(timezone.utc) for timezone-aware timestamps
+- load_history() no longer reverses in-memory before returning to save_content(),
+  so the on-disk file always grows in chronological order; reversal only happens
+  in the public read path
+- Atomic write via a temp file to prevent JSON corruption on crash
 """
 
 import json
 import os
-from datetime import datetime
+import tempfile
+from datetime import datetime, timezone
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-_HISTORY_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "history.json")
-_HISTORY_FILE = os.path.abspath(_HISTORY_FILE)
+_HISTORY_FILE = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "data", "history.json")
+)
 
 
 class HistoryService:
@@ -44,37 +53,27 @@ class HistoryService:
             content: Generated content string.
         """
         record = {
-            "timestamp": datetime.now().isoformat(timespec="seconds"),
+            "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "platform": platform,
             "topic": topic,
             "tone": tone,
             "length": length,
             "content": content,
         }
-        history = self.load_history()
-        history.append(record)
-        self._write(history)
+        # Read raw chronological order (not reversed) then append
+        existing = self._read_raw()
+        existing.append(record)
+        self._write(existing)
         logger.info("History saved | platform=%s | topic=%s", platform, topic)
 
     def load_history(self) -> list[dict]:
         """
-        Load all history records from the JSON file.
+        Load all history records, newest first.
 
         Returns:
-            List of history record dicts, newest first.
+            List of history record dicts sorted newest-first.
         """
-        try:
-            with open(self._path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            if not isinstance(data, list):
-                raise ValueError("History file is not a JSON array.")
-            return list(reversed(data))
-        except (json.JSONDecodeError, ValueError) as exc:
-            logger.error("History file corrupted, resetting: %s", exc)
-            self._write([])
-            return []
-        except FileNotFoundError:
-            return []
+        return list(reversed(self._read_raw()))
 
     def clear_history(self) -> None:
         """Wipe all history records."""
@@ -83,10 +82,36 @@ class HistoryService:
 
     # ── Private helpers ───────────────────────────────────────────────────────
 
-    def _write(self, data: list) -> None:
-        """Write data list to the JSON history file."""
+    def _read_raw(self) -> list:
+        """Read and return the raw chronological list from disk."""
         try:
-            with open(self._path, "w", encoding="utf-8") as f:
+            with open(self._path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            if not isinstance(data, list):
+                raise ValueError("History file is not a JSON array.")
+            return data
+        except (json.JSONDecodeError, ValueError) as exc:
+            logger.error("History file corrupted, resetting: %s", exc)
+            self._write([])
+            return []
+        except FileNotFoundError:
+            return []
+
+    def _write(self, data: list) -> None:
+        """
+        Atomically write data list to the JSON history file.
+        Uses a temp file + rename to prevent partial-write corruption.
+        """
+        dir_ = os.path.dirname(self._path)
+        try:
+            fd, tmp_path = tempfile.mkstemp(dir=dir_, suffix=".tmp")
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
+            os.replace(tmp_path, self._path)
         except OSError as exc:
             logger.error("Failed to write history: %s", exc)
+            # Clean up temp file if rename failed
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass

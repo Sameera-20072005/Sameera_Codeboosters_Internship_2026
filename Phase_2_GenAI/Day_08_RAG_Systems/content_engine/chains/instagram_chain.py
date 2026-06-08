@@ -4,7 +4,7 @@ Builds a LangChain pipeline for engaging Instagram captions.
 """
 
 from services.groq_service import GroqService
-from templates.prompts import INSTAGRAM_TEMPLATE
+from templates.prompts import INSTAGRAM_TEMPLATE, sanitise_topic
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -29,6 +29,9 @@ class InstagramChain:
         Returns:
             Generated Instagram caption string with hashtags.
         """
-        prompt = self._template.format(topic=topic, tone=tone, length=length)
-        logger.info("InstagramChain running | topic=%s | tone=%s | length=%s", topic, tone, length)
+        safe_topic = sanitise_topic(topic)
+        prompt = self._template.format_prompt(
+            topic=safe_topic, tone=tone, length=length
+        ).to_string()
+        logger.info("InstagramChain running | tone=%s | length=%s", tone, length)
         return self._groq.generate_content(prompt, temperature=0.8)

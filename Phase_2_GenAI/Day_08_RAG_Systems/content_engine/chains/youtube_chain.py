@@ -4,7 +4,7 @@ Builds a LangChain pipeline for SEO-optimised video titles and descriptions.
 """
 
 from services.groq_service import GroqService
-from templates.prompts import YOUTUBE_TEMPLATE
+from templates.prompts import YOUTUBE_TEMPLATE, sanitise_topic
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -29,6 +29,9 @@ class YouTubeChain:
         Returns:
             Generated YouTube metadata string.
         """
-        prompt = self._template.format(topic=topic, tone=tone, length=length)
-        logger.info("YouTubeChain running | topic=%s | tone=%s | length=%s", topic, tone, length)
+        safe_topic = sanitise_topic(topic)
+        prompt = self._template.format_prompt(
+            topic=safe_topic, tone=tone, length=length
+        ).to_string()
+        logger.info("YouTubeChain running | tone=%s | length=%s", tone, length)
         return self._groq.generate_content(prompt, temperature=0.65, max_tokens=1024)

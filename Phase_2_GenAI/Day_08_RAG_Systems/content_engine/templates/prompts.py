@@ -1,9 +1,11 @@
 """
 Centralised prompt templates for all supported social media platforms.
 Each template encodes the platform persona, tone, and structural requirements.
+
+Uses langchain_core.prompts (LangChain >=0.2 compatible).
 """
 
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 # ── LinkedIn ──────────────────────────────────────────────────────────────────
 LINKEDIN_TEMPLATE = PromptTemplate(
@@ -102,3 +104,17 @@ PLATFORM_TEMPLATES: dict[str, PromptTemplate] = {
     "twitter":   TWITTER_TEMPLATE,
     "youtube":   YOUTUBE_TEMPLATE,
 }
+
+
+def sanitise_topic(topic: str) -> str:
+    """
+    Escape curly braces in user-supplied topic so they don't
+    break PromptTemplate variable substitution.
+
+    Args:
+        topic: Raw user input string.
+
+    Returns:
+        Topic with literal braces escaped.
+    """
+    return topic.replace("{", "{{").replace("}", "}}")
