@@ -1,10 +1,15 @@
 """
 GitHub Actions workflow template module.
 Generates CI workflow YAML for supported languages.
+
+NOTE: These are plain string constants — NOT f-strings or PromptTemplates.
+      GitHub Actions expressions use ${{ }} which must appear literally.
+      Single braces {{ }} in a plain string literal render as {{ }} — correct.
 """
 
 from __future__ import annotations
 
+# ── Python ─────────────────────────────────────────────────────────────────────
 _PYTHON_WORKFLOW = """\
 name: CI
 
@@ -24,10 +29,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python ${{{{ matrix.python-version }}}}
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: ${{{{ matrix.python-version }}}}
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
@@ -50,6 +55,7 @@ jobs:
           file: ./coverage.xml
 """
 
+# ── Node.js / TypeScript ───────────────────────────────────────────────────────
 _NODE_WORKFLOW = """\
 name: CI
 
@@ -69,10 +75,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{{{ matrix.node-version }}}}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{{{ matrix.node-version }}}}
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - name: Install dependencies
@@ -85,6 +91,7 @@ jobs:
         run: npm run build --if-present
 """
 
+# ── Java ───────────────────────────────────────────────────────────────────────
 _JAVA_WORKFLOW = """\
 name: CI
 
@@ -114,6 +121,7 @@ jobs:
         run: mvn test
 """
 
+# ── Generic fallback ───────────────────────────────────────────────────────────
 _GENERIC_WORKFLOW = """\
 name: CI
 

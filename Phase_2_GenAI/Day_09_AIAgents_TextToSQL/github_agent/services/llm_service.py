@@ -21,6 +21,57 @@ _MAX_TOKENS     = 2048
 _INPUT_CHAR_CAP = 3000
 _TIMEOUT        = 30
 
+# ── Module-level prompt templates (compiled once, not on every call) ──────────
+_INTENT_TEMPLATE = PromptTemplate(
+    input_variables=["request"],
+    template=(
+        "You are a software architect assistant. Analyse the following project request "
+        "and return ONLY a valid JSON object — no prose, no fences.\n\n"
+        "Required JSON fields:\n"
+        "  project_name    (string, lowercase-hyphenated, max 40 chars)\n"
+        "  description     (string, one sentence)\n"
+        "  language        (string, e.g. Python, JavaScript, Java)\n"
+        "  framework       (string or empty string)\n"
+        "  database        (string or empty string)\n"
+        "  testing_required  (boolean)\n"
+        "  docker_required   (boolean)\n"
+        "  ci_required       (boolean)\n"
+        "  visibility        (string: public or private)\n\n"
+        "Project request:\n{request}\n\n"
+        "JSON:"
+    ),
+)
+
+_README_TEMPLATE = PromptTemplate(
+    input_variables=["intent"],
+    template=(
+        "You are a technical writer. Generate a professional README.md for the following project.\n"
+        "Return only the markdown — no fences.\n\n"
+        "Project details:\n{intent}\n\n"
+        "README.md:"
+    ),
+)
+
+_STRUCTURE_TEMPLATE = PromptTemplate(
+    input_variables=["intent"],
+    template=(
+        "You are a software architect. Given the project details below, return ONLY a JSON array "
+        "of relative file paths to create (strings only, no objects). Include src/, tests/ if needed, "
+        "docs/index.md, and any framework-specific files. No explanation.\n\n"
+        "Project: {intent}\n\n"
+        "JSON array:"
+    ),
+)
+
+_REQUIREMENTS_TEMPLATE = PromptTemplate(
+    input_variables=["language", "framework", "database", "testing"],
+    template=(
+        "Generate a {language} requirements.txt (one package per line, no versions unless critical). "
+        "Framework: {framework}. Database: {database}. Testing required: {testing}.\n"
+        "Return ONLY the file contents — no explanation, no fences."
+    ),
+)
+
 
 class GroqLLMService:
     """Handles all LLM interactions via Groq for the GitHub Agent."""
@@ -49,32 +100,15 @@ class GroqLLMService:
         Raises:
             RuntimeError: On API or JSON parsing failure.
         """
-        prompt = PromptTemplate(
-            input_variables=["request"],
-            template=(
-                "You are a software architect assistant. Analyse the following project request "
-                "and return ONLY a valid JSON object — no prose, no fences.\n\n"
-                "Required JSON fields:\n"
-                "  project_name    (string, lowercase-hyphenated, max 40 chars)\n"
-                "  description     (string, one sentence)\n"
-                "  language        (string, e.g. Python, JavaScript, Java)\n"
-                "  framework       (string or empty string)\n"
-                "  database        (string or empty string)\n"
-                "  testing_required  (boolean)\n"
-                "  docker_required   (boolean)\n"
-                "  ci_required       (boolean)\n"
-                "  visibility        (string: public or private)\n\n"
-                "Project request:\n{request}\n\n"
-                "JSON:"
-            ),
-        ).format_prompt(request=self._cap(user_request)).to_string()
-
+        # Escape braces in user input before passing to PromptTemplate
+        safe_request = self._escape_braces(self._cap(user_request))
+        prompt = _INTENT_TEMPLATE.format_prompt(request=safe_request).to_string()
         raw = self._call(prompt)
         return self._parse_json(raw, "intent")
 
     def generate_readme(self, intent: dict) -> str:
         """
-        Generate a README.md body using the LLM, augmenting the static template.
+        Generate a README.md body using the LLM.
 
         Args:
             intent: Parsed project intent dict.
@@ -82,16 +116,9 @@ class GroqLLMService:
         Returns:
             Markdown README string.
         """
-        prompt = PromptTemplate(
-            input_variables=["intent"],
-            template=(
-                "You are a technical writer. Generate a professional README.md for the following project.\n"
-                "Return only the markdown — no fences.\n\n"
-                "Project details:\n{intent}\n\n"
-                "README.md:"
-            ),
-        ).format_prompt(intent=json.dumps(intent, indent=2)).to_string()
-
+        # Escape braces in the serialised intent JSON to prevent PromptTemplate KeyError
+        safe_intent = self._escape_braces(json.dumps(intent, indent=2))
+        prompt = _README_TEMPLATE.format_prompt(intent=safe_intent).to_string()
         return self._call(prompt, max_tokens=1024)
 
     def generate_folder_structure(self, intent: dict) -> list[str]:
@@ -104,23 +131,14 @@ class GroqLLMService:
         Returns:
             List of path strings (e.g. ['src/main.py', 'tests/test_main.py']).
         """
-        prompt = PromptTemplate(
-            input_variables=["intent"],
-            template=(
-                "You are a software architect. Given the project details below, return ONLY a JSON array "
-                "of relative file paths to create (strings only, no objects). Include src/, tests/ if needed, "
-                "docs/index.md, and any framework-specific files. No explanation.\n\n"
-                "Project: {intent}\n\n"
-                "JSON array:"
-            ),
-        ).format_prompt(intent=json.dumps(intent, indent=2)).to_string()
-
+        safe_intent = self._escape_braces(json.dumps(intent, indent=2))
+        prompt = _STRUCTURE_TEMPLATE.format_prompt(intent=safe_intent).to_string()
         raw = self._call(prompt, max_tokens=512)
         return self._parse_json_list(raw)
 
     def generate_requirements(self, intent: dict) -> str:
         """
-        Generate a requirements.txt (or package.json deps) based on intent.
+        Generate a requirements.txt based on intent.
 
         Args:
             intent: Parsed project intent dict.
@@ -128,23 +146,12 @@ class GroqLLMService:
         Returns:
             String contents of the requirements file.
         """
-        language  = intent.get("language", "Python")
-        framework = intent.get("framework", "")
-        database  = intent.get("database", "")
-        testing   = intent.get("testing_required", False)
-
-        prompt = PromptTemplate(
-            input_variables=["language", "framework", "database", "testing"],
-            template=(
-                "Generate a {language} requirements.txt (one package per line, no versions unless critical). "
-                "Framework: {framework}. Database: {database}. Testing required: {testing}.\n"
-                "Return ONLY the file contents — no explanation, no fences."
-            ),
-        ).format_prompt(
-            language=language, framework=framework,
-            database=database, testing=str(testing),
+        prompt = _REQUIREMENTS_TEMPLATE.format_prompt(
+            language=self._escape_braces(intent.get("language", "Python")),
+            framework=self._escape_braces(intent.get("framework", "")),
+            database=self._escape_braces(intent.get("database", "")),
+            testing=str(intent.get("testing_required", False)),
         ).to_string()
-
         return self._call(prompt, max_tokens=256)
 
     # ── Private helpers ───────────────────────────────────────────────────────
@@ -171,7 +178,10 @@ class GroqLLMService:
             content = (response.choices[0].message.content or "").strip()
             if not content:
                 raise RuntimeError("LLM returned an empty response.")
-            logger.debug("LLM response | tokens=%s", getattr(response.usage, "total_tokens", "?"))
+            logger.debug(
+                "LLM response | tokens=%s",
+                getattr(response.usage, "total_tokens", "?"),
+            )
             return content
         except AuthenticationError as exc:
             raise RuntimeError("Invalid GROQ_API_KEY.") from exc
@@ -190,6 +200,14 @@ class GroqLLMService:
         return text[:_INPUT_CHAR_CAP]
 
     @staticmethod
+    def _escape_braces(text: str) -> str:
+        """
+        Escape literal curly braces so they don't break PromptTemplate substitution.
+        LangChain uses single { } for variables; {{ }} renders as a literal brace.
+        """
+        return text.replace("{", "{{").replace("}", "}}")
+
+    @staticmethod
     def _strip_fences(text: str) -> str:
         """Remove markdown code fences from LLM output."""
         text = re.sub(r"^```[a-zA-Z]*\n?", "", text.strip())
@@ -201,7 +219,7 @@ class GroqLLMService:
         Parse a JSON object from raw LLM output.
 
         Args:
-            raw: Raw LLM response string.
+            raw:   Raw LLM response string.
             label: Human-readable label for error messages.
 
         Returns:
@@ -211,7 +229,6 @@ class GroqLLMService:
             RuntimeError: On JSON decode failure.
         """
         cleaned = self._strip_fences(raw)
-        # Extract the first {...} block in case of extra prose
         match = re.search(r"\{.*\}", cleaned, re.DOTALL)
         if match:
             cleaned = match.group(0)
@@ -221,8 +238,12 @@ class GroqLLMService:
                 raise ValueError("Expected a JSON object.")
             return result
         except (json.JSONDecodeError, ValueError) as exc:
-            logger.error("JSON parse failed for %s: %s | raw=%s", label, exc, raw[:200])
-            raise RuntimeError(f"LLM returned invalid JSON for {label}: {exc}") from exc
+            logger.error(
+                "JSON parse failed for %s: %s | raw=%.200s", label, exc, raw
+            )
+            raise RuntimeError(
+                f"LLM returned invalid JSON for {label}: {exc}"
+            ) from exc
 
     def _parse_json_list(self, raw: str) -> list[str]:
         """Parse a JSON array of strings from raw LLM output."""
@@ -236,5 +257,5 @@ class GroqLLMService:
                 return [str(p) for p in result]
             raise ValueError("Expected a JSON array.")
         except (json.JSONDecodeError, ValueError) as exc:
-            logger.error("JSON list parse failed: %s | raw=%s", exc, raw[:200])
+            logger.error("JSON list parse failed: %s | raw=%.200s", exc, raw)
             return ["src/main.py", "tests/test_main.py", "docs/index.md"]
